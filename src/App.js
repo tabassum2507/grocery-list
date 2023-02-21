@@ -3,16 +3,16 @@ import Alert from "./Alert";
 import List from "./List";
 
 function App() {
-  const[name, setName] = useState(' ');
+  const[name, setName] = useState('');
   const[list, setList] = useState([]);
   const[isEditing, setIsEditing] = useState(false);
   const[editID, setEditID] = useState(null);
-  const[alert, setAlert] = useState({show: false, msg:'', type: ''})
+  const[alert, setAlert] = useState({show: true, msg:'hello world', type: 'success'})
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!name){
-
+      showAlert(true, 'danger', 'Please enter item')
     }else if(name && isEditing){
 
     }else {
@@ -22,11 +22,14 @@ function App() {
     }
   }
 
+  const showAlert = (show=false, type="", msg="")=> {
+    setAlert({show, type, msg})
+  }
 
   return (
     <div className="section-center">
       <form onSubmit={handleSubmit} className="grocery-form">
-        {alert.show && <Alert />}
+        {alert.show && <Alert {...alert} removeAlert={showAlert}/>}
         <h3>Grocery List</h3>
         <input type="text" className="grocery" placeholder="e.g Rice" value={name} onChange={(e)=> setName(e.target.value)}/>
         <button type="submit" className="submit-btn">
